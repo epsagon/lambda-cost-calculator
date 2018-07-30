@@ -37,6 +37,8 @@ CSV file:
 Usage
 -----
 
+Output data to CSV (**It will include more relevant data!**):
+
 .. code-block:: bash
 
     python lambda_cost_calculator.py --csv lambda_cost.csv
