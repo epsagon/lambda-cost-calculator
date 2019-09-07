@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 import argparse
 import codecs
 import boto3
+from math import ceil
 from boto3.session import Session
 from terminaltables import AsciiTable
 import progressbar
@@ -90,7 +91,7 @@ def calculate_cost(avg_duration, sum_invocations, memory_size):
     :return: cost.
     """
     return (
-        (avg_duration / PRICE_INTERVALS_MS) *
+        ceil(avg_duration / PRICE_INTERVALS_MS) *
         sum_invocations *
         get_price_by_memory(memory_size) +
         sum_invocations * PRICE_PER_INVOCATION
