@@ -47,4 +47,4 @@ Provide credentials:
 
 .. code-block:: bash
 
-    python lambda_cost_calculator.py --token_key_id <access_key_id> --token_secret <secret_access_key>
+    python lambda_cost_calculator.py --token-key-id <access_key_id> --token-secret <secret_access_key>
