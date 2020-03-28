@@ -119,7 +119,7 @@ def print_lambda_cost(args):
     :param args: script arguments.
     :return: None.
     """
-    regions = list_available_lambda_regions()
+    regions = args.regions.split(",") if args.regions else list_available_lambda_regions()
     progress_bar = progressbar.ProgressBar(max_value=len(regions))
     lambdas_data = []
     total_monthly_cost = 0
@@ -234,6 +234,14 @@ if __name__ == '__main__':
             'AWS profile name (default: "default").'
         ),
         metavar='profile'
+    )
+    parser.add_argument(
+        '--regions',
+        type=str,
+        help=(
+            'Comma separated list of AWS regions to process (default: all regions).'
+        ),
+        metavar='regions'
     )
 
     arguments = parser.parse_args()
