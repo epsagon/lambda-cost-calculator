@@ -46,6 +46,9 @@ def init_boto_client(client_name, region, args):
             aws_secret_access_key=args.token_secret,
             region_name=region
         )
+    elif args.profile:
+        session = Session(profile_name=args.profile, region_name=region)
+        boto_client = session.client(client_name, region_name=region)
     else:
         boto_client = boto3.client(client_name, region_name=region)
 
@@ -223,6 +226,14 @@ if __name__ == '__main__':
             'as well (default: from local configuration.'
         ),
         metavar='token-secret'
+    )
+    parser.add_argument(
+        '--profile',
+        type=str,
+        help=(
+            'AWS profile name (default: "default").'
+        ),
+        metavar='profile'
     )
 
     arguments = parser.parse_args()
