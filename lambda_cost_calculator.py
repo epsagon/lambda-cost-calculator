@@ -46,6 +46,9 @@ def init_boto_client(client_name, region, args):
             aws_secret_access_key=args.token_secret,
             region_name=region
         )
+    elif args.profile:
+        session = Session(profile_name=args.profile, region_name=region)
+        boto_client = session.client(client_name, region_name=region)
     else:
         boto_client = boto3.client(client_name, region_name=region)
 
@@ -116,7 +119,7 @@ def print_lambda_cost(args):
     :param args: script arguments.
     :return: None.
     """
-    regions = list_available_lambda_regions()
+    regions = args.regions.split(",") if args.regions else list_available_lambda_regions()
     progress_bar = progressbar.ProgressBar(max_value=len(regions))
     lambdas_data = []
     total_monthly_cost = 0
@@ -223,6 +226,22 @@ if __name__ == '__main__':
             'as well (default: from local configuration.'
         ),
         metavar='token-secret'
+    )
+    parser.add_argument(
+        '--profile',
+        type=str,
+        help=(
+            'AWS profile name (default: "default").'
+        ),
+        metavar='profile'
+    )
+    parser.add_argument(
+        '--regions',
+        type=str,
+        help=(
+            'Comma separated list of AWS regions to process (default: all regions).'
+        ),
+        metavar='regions'
     )
 
     arguments = parser.parse_args()
